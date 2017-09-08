@@ -18,7 +18,7 @@
 	    <div class="panel panel-default">
 	      <div class="panel-body">
 
-			<a href="class/prueba.php" class="btn btn-info btn-md"><span class="glyphicon glyphicon-pen" aria-hidden="true"></span> Formulario</a>
+			<a href="class/prueba.php" class="btn btn-info btn-md"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Formulario</a>
 	
 	      </div>
 	    </div>
