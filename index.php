@@ -19,7 +19,7 @@
 	    <div class="panel panel-default">
 	      <div class="panel-body">
 
-			<form role="form" method="post" action="class/prueba.php">
+			<form role="form" method="post" action="class/c_index.php">
 				<div>
 					<h1>Clientes </h1>
 					<button type="submit" name="nuevo" value="nuevo" class="btn btn-info"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Nuevo</button>
