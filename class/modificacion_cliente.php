@@ -2,14 +2,13 @@
 require("../class/clientes.php");
 require("../class/metodos_validacion.php");
 
-class NuevoCliente extends MetodosValidacion{
-
-			
-	public function agregarCliente(){
+class ModificarCliente extends MetodosValidacion{
+	
+	public function guardarModCliente(){
 		//CREA UN NUEVO CLIENTE
 		$client = new Cliente();
-		$client->add();//Y LO GUARDA EN LA BASE
-		
+		$client->update();//Y LO GUARDA EN LA BASE
+			
 	}		
 	
 	public function redirectOK(){
@@ -20,7 +19,7 @@ class NuevoCliente extends MetodosValidacion{
 		
 	public function vienePor(){
 		//ve si viene por get o por post
-		
+		//si va por post devuelve true
 		if($_SERVER['REQUEST_METHOD']=='POST'){
 			if($_POST['cont']==0){	//si $_POST['cont'] es 0 entonces se entra al formulario por primera vez 
 				return FALSE;
@@ -31,37 +30,43 @@ class NuevoCliente extends MetodosValidacion{
 	}
 		
 	//funcion para probar las protected
-	public function nuevo(){
+	public function modificar(){
 		$nacionalidades['Argentino']='Argentino';
 		$nacionalidades['Uruguayo']='Uruguayo';
 		$nacionalidades['Canadiense']='Canadiense';
 		$nacionalidades['Chileno']='Chileno';
-		
-		//se le pone si esta en 'nuevo' para que despues en el form_c
-		$this->valores['cliente_estado']='nuevo';
-		//si es nuevo se manda se usa esto 
-	
+		$_POST['nacionalidades']=$nacionalidades;
 		
 		if($this->vienePor()){
 			if(!isset($_POST['activo'])){
 				$_POST['activo']=NULL;
 			}
-			$_POST['nacionalidades']=$nacionalidades;
 			$ok=$this->validar();
 			if($ok){
-				$this->agregarCliente();
+				$this->guardarModCliente();
 				$this->redirectOK();
 			}else{
 				//vuelve a mostrar el formulario con los errores y la informacion
-				require ("../php/form_err_nuevo.php");
+				require ("../php/form_modificaciones.php");
 			}
 		}
-		else{		
-			$_GET['nacionalidades']=$nacionalidades;
-			require ("../php/form_nuevo.php"); 
+		else{
+			$obj = new Cliente();
+			$cliente = $obj->clientesPorId($_POST['modificar']);
+			
+			$_POST['id']=$cliente[0]['id'];
+			$_POST['apellido']=$cliente[0]['apellido'];
+			$_POST['nombre']=$cliente[0]['nombre'];
+			$_POST['fecha_nac']=$cliente[0]['fecha_nac'];
+			$_POST['nacionalidad']=$cliente[0]['nacionalidad'];
+			$_POST['activo']=$cliente[0]['activo'];
+			
+			$ok=$this->validar();
+			
+			require ("../php/form_modificaciones.php"); 
 		}
 	}
 }
-
-$n_cliente = new NuevoCliente;
-$n_cliente->nuevo();
+$modi_cliente = new ModificarCliente;
+	
+	$modi_cliente->modificar();

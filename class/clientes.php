@@ -14,21 +14,13 @@ class Cliente extends Conexion {
     // LISTAMOS TODO EL PERSONAL
     //*****************************************************************
     public function clientes(){
-        $resultado = $this->mysqli->query("SELECT
-            clientes.id,
-            clientes.apellido,
-            clientes.nombre,
-            clientes.edad,
-            cliente.nacionalidad,
-            clientes.activo
-            FROM
-            clientes
-            ");
-
-        while( $fila = $resultado->fetch_assoc() ){
-            $data[] = $fila;
-        }
-
+        
+		$resultado = $this->mysqli->query("SELECT id, apellido, nombre, fecha_nac,nacionalidad,activo FROM clientes ORDER BY apellido, nombre;");
+		
+		while($fila = $resultado->fetch_assoc()){
+			$data[] = $fila;
+		}
+		
         if (isset($data)) {
             return $data; 
         } 
@@ -43,7 +35,7 @@ class Cliente extends Conexion {
             "INSERT INTO clientes values(null, %s, %s, %s, %s, %s);",  
             parent::comillas_inteligentes($_POST['apellido']), 
             parent::comillas_inteligentes($_POST['nombre']), 
-            parent::comillas_inteligentes($_POST['edad']),
+            parent::comillas_inteligentes($_POST['fecha_nac']),
             parent::comillas_inteligentes($_POST['nacionalidad']),
             parent::comillas_inteligentes($_POST['activo'])
             );
@@ -60,14 +52,14 @@ class Cliente extends Conexion {
             "UPDATE clientes SET
             apellido = %s,
             nombre = %s,
-            edad = %s,
+            fecha_nac = %s,
             nacionalidad = %s,
             activo = %s
             WHERE
             id = %s;", 
             parent::comillas_inteligentes($_POST['apellido']), 
             parent::comillas_inteligentes($_POST['nombre']),
-            parent::comillas_inteligentes($_POST['edad']),
+            parent::comillas_inteligentes($_POST['fecha_nac']),
             parent::comillas_inteligentes($_POST['nacionalidad']),
             parent::comillas_inteligentes($_POST['activo']),
             parent::comillas_inteligentes($_POST['id'])
@@ -93,16 +85,16 @@ class Cliente extends Conexion {
     //*****************************************************************
     public function clientesPorId($id){
         $consulta = sprintf("SELECT
-            clientes.id,
-            clientes.apellido,
-            clientes.nombre,
-            clientes.edad,
-            clientes.nacionalidad,
-            clientes.activo
+            id,
+            apellido,
+            nombre,
+            fecha_nac,
+            nacionalidad,
+            activo
             FROM
             clientes
             WHERE
-            clientes.id = %s", 
+            id = %s", 
             parent::comillas_inteligentes($id)
             );
 
@@ -117,5 +109,11 @@ class Cliente extends Conexion {
         }
     }
 
+	public function calcularEdad($fecha_nac){
+		list($Y,$m,$d)=explode("-", $fecha_nac);
+		return(date("md")<$m.$d ? date("Y")-$Y-1 : date("Y")-$Y);
+		
+	}
+	
 }
 ?>

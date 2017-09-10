@@ -2,7 +2,7 @@
 Class Conexion {
 
    public function conectar(){
-      $mysqli = new mysqli('localhost','root','','practico_web',3306);
+      $mysqli = new mysqli('localhost','root','','practica_web',3306);
 
       if ($mysqli->connect_errno)
          header('Location: offline.html');

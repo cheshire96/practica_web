@@ -2,7 +2,7 @@
 
 require("../class/FormStub.php");
 
-class MetodosValidacion extends FormStub
+abstract class MetodosValidacion extends FormStub
 {
     
     protected $errores = [];
@@ -146,7 +146,7 @@ class MetodosValidacion extends FormStub
 	}
 		
 	public function proCheck($campo, $mensaje){
-		if(($campo!= 1)&&($campo!= NULL)){
+		if(($campo!= 1)&&($campo!= NULL)&&($campo!= 0)){
 			$m="Valor invalido en ".$mensaje;
 				$this->setError($mensaje, $m);
 		}
@@ -176,73 +176,22 @@ class MetodosValidacion extends FormStub
 		$this->proSelected($valores_form['nacionalidad'],'nacionalidad');
 	}
 		
-	public function redirectOK(){
-		$url='../php/form_ok.php';
-		header('Location: '. $url);
-		die();
-	}
+	
 		
 	/**
 	 * Dispara las validaciones del form.
 	 * Devuelve el resultado del proceso.
 	 */
-	protected function validar(){
+	 protected function validar(){
 		$this->rellenarCon($_POST);
 		$this->procesarForm($this->valores);
 		if($this->tieneErrores()){
-			//vuelve a mostrar el formulario con los errores y la informacion
-			require ("../php/form_e.php");
-		}else{
-			
-			
-			/*	
-			 * 
-			 * //CREA UN NUEVO CLIENTE
-			 * $client = new Cliente();
-				$client->add();//Y LO GUARDA EN LA BASE
-			* */
-			
-			//redirecciona a la pagina de ok
-			$this->redirectOK();
-		}
-	}
-		
-	public function vienePor(){
-		//ve si viene por get o por post
-		//si va por post devuelve true
-		if($_SERVER['REQUEST_METHOD']=='POST'){
-			return TRUE;
-		}
-		//si va por get devuelve false
-		else{
-			return FALSE;
-		}
-	}
-		
-	//funcion para probar las protected
-	public function hola(){
-		$nacionalidades['Argentino']='Argentino';
-		$nacionalidades['Uruguayo']='Uruguayo';
-		$nacionalidades['Canadiense']='Canadiense';
-		$nacionalidades['Chileno']='Chileno';
-		
-		//se le pone si esta en 'nuevo' para que despues en el form_c
-		$this->valores['cliente_estado']='nuevo';
-		//si es nuevo se manda se usa esto 
-	
-		
-		if($this->vienePor()){
-			if(!isset($_POST['activo'])){
-				$_POST['activo']=NULL;
-			}
-			$_POST['nacionalidades']=$nacionalidades;
-			$this->validar();
+			return false;	
 		}
 		else{
-					
-			$_GET['nacionalidades']=$nacionalidades;
-			require ("../php/formulario.php"); 
+			return true;
 		}
 	}
+
 }
 
