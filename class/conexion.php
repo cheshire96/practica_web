@@ -23,17 +23,4 @@ Class Conexion {
       }
       return $valor;
    }
-/*
-    public static function comillas_inteligentes($_POST) {
-        // Retirar las barras
-      if (get_magic_quotes_gpc()) {
-         $_POST = stripslashes($_POST);
-      }
-      // Colocar comillas si no es entero
-      if (!is_numeric($_POST)) {
-         $_POST = "'" . $this->mysqli->real_escape_string($_POST) . "'";
-      }
-      return $_POST;
-    }
-*/
 }

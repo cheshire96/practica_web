@@ -26,6 +26,8 @@ class ModificarCliente extends MetodosValidacion{
 			}else{//sino devuelve true
 				return TRUE;
 			}
+		}else{
+			return FALSE;
 		}
 	}
 		

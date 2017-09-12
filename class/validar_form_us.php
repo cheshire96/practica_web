@@ -2,7 +2,7 @@
 
 require("../class/FormStub.php");
 
-abstract class MetodosValidacion extends FormStub
+abstract class MetodosValidarUsuario extends FormStub
 {
     
     protected $errores = [];
@@ -89,6 +89,43 @@ abstract class MetodosValidacion extends FormStub
      * Devuelve $this para una API fluida.   
 	 */
 		 
+	
+
+	public function proUsuario($campo, $mensaje){
+		$dato=$this->getValor($campo);
+		$clave=$mensaje;
+		if($dato===NULL){
+			$m="No se ha ingresado el ".$mensaje;
+			$this->setError($clave, $m);
+		}
+		if(strlen($dato)<3){
+			$m="El ".$mensaje." es invalido";
+			$this->setError($clave, $m);
+		}			
+		$d=str_replace(' ','',$dato);
+		if($d!=$dato){
+			$m="El ".$mensaje." es invalido";
+			$this->setError($clave, $m);
+		}
+	}
+
+	public function proPass($campo, $mensaje){
+		$dato=$this->getValor($campo);
+		$clave=$mensaje;
+		if($dato===NULL){
+			$m="No se ha ingresado la contrasenia";
+			$this->setError($clave, $m);
+		}
+		if(strlen($dato)<6){
+			$m="La contrasenia es demasiado corta";
+			$this->setError($clave, $m);
+		}			
+		if(strlen($dato)>16){
+			$m="La contrasenia es demasiado larga";
+			$this->setError($clave, $m);
+		}
+	}
+	
 	protected function rellenarCon($arreglo_datos){
 		foreach($arreglo_datos as $i => $datos){
 			$this->valores[$i]=$datos;
@@ -96,86 +133,9 @@ abstract class MetodosValidacion extends FormStub
 		return $this; 
 	}
 		
-	//Procesa los campos de tipo texto
-	public function proText($campo, $mensaje){
-		$dato=$this->getValor($campo);
-		$clave=$mensaje;
-		if($dato===NULL){
-			$m="No se ha ingresado el ".$mensaje;
-			$this->setError($clave, $m);
-		}else{
-			//solo caracteres
-			if(preg_match('/[^a-zA-Z]/',$dato)){	
-				$this->setError($clave, "Solo se permiten caracteres");
-				return NULL;
-			}
-		}
-			
-	}
-		
-	//Procesa la fecha para ver si es valida
-	public function proDate($campo, $mensaje){
-		$valor=$this->getValor($campo);
-		if($valor===NULL){
-			$m="No se ha ingresado una ".$mensaje;
-			$this->setError($mensaje, $m);
-		}else{
-			$hoy = getdate();
-			$a_min=$hoy["year"]-110;
-			$dia=$hoy["mday"];
-			$mes=$hoy["mon"];
-			if($dia<10){
-				$dia="0".$dia;
-			}
-			if($mes<10){
-				$mes="0".$mes;
-			}
-			$min=$a_min."-01-01";
-			$max=$hoy["year"]."-".$mes."-".$dia;
-				
-			if ($valor<$min){//si la fecha de nacimiento es menor a la fecha min
-				$m="La fecha ingresada no es valida";
-				$this->setError($mensaje, $m);
-			}
-			if ($valor>$max){//si la fecha de nacimiento es mayor a la fecha actual
-				$m="La fecha ingresada no es valida";
-				$this->setError($mensaje, $m);
-			}
-				
-		}
-	}
-		
-	public function proCheck($campo, $mensaje){
-		if(($campo!= 1)&&($campo!= NULL)&&($campo!= 0)){
-			$m="Valor invalido en ".$mensaje;
-				$this->setError($mensaje, $m);
-		}
-	}
-		
-	public function proSelected($campo, $mensaje){
-		if($campo == NULL){
-			$m="Valor invalido en ".$mensaje;
-			$this->setError($mensaje, $m);
-		}
-		else{
-			foreach($_POST['nacionalidades'] as $k =>$nacionalidad){
-				if($nacionalidad==$campo){
-					return "";
-				}	
-			}
-			$m="El valor ingresado no es valido";
-			$this->setError($mensaje, $m);			
-		}
-	}
-
-
 	public function procesarForm($valores_form){
-		$this->proText($valores_form['apellido'], 'apellido');
-		$this->proText($valores_form['nombre'],'nombre');
-		$this->proDate($valores_form['fecha_nac'],'fecha de nacimiento');
-		$this->proCheck($valores_form['activo'],'activo');
-		$this->proSelected($valores_form['nacionalidad'],'nacionalidad');
-		
+		$this->proUsuario($valores_form['usuario'],'usuario');
+		$this->proPass($valores_form['contrasenia'],'contrasenia');
 	}
 		
 	
@@ -194,6 +154,4 @@ abstract class MetodosValidacion extends FormStub
 			return true;
 		}
 	}
-
 }
-
