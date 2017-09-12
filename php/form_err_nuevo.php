@@ -1,6 +1,10 @@
 <?php
 //FORMULARIO CON LOS ERRORES
+$_POST['titulo']='Nuevo Cliente';
 include "header.php";
+
+if(isset($_SESSION['userid'])):
+
 ?>
 
 <div class="panel panel-default">
@@ -56,7 +60,7 @@ include "header.php";
 				</div>
 				<?php echo '<strong class="text-danger">'.$this->getError('activo').'</strong>';?>
 
-				<a href="../index.php" class="btn btn-link btn-md"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Volver</a>
+				<a href="../php/mostrar.php" class="btn btn-link btn-md"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Volver</a>
 					
 				<button type="submit" name="cont" value=1 class="btn btn-info">Enviar</button>
 			</fieldset>
@@ -65,5 +69,12 @@ include "header.php";
 </div>
 				
 <?php
+else:
+	
+	$_POST['cont']=0;
+	header('location: ../class/c_ingresar.php');
+	die(); 
+endif;
+
 include "footer.php";
 ?>

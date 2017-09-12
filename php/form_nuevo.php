@@ -1,5 +1,8 @@
 <?php 
+$_POST['titulo']='Nuevo Cliente';
 include "header.php"; 
+if(isset($_SESSION['userid'])):
+
 ?>
 <div class="panel panel-default">
 	<div class="panel-body">
@@ -35,7 +38,7 @@ include "header.php";
 					<input type="checkbox" name="activo" value=1> 
 				</div>
 					
-				<a href="../index.php" class="btn btn-link btn-md"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Volver</a>
+				<a href="../php/mostrar.php" class="btn btn-link btn-md"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Volver</a>
 			
 				<button type="submit" name="cont" value=1 class="btn btn-info">Enviar</button>
 
@@ -43,4 +46,12 @@ include "header.php";
 		</form>
 	</div>
 </div>
-<?php include "footer.php"; ?>
+<?php 
+else:
+	
+	$_POST['cont']=0;
+	header('location: ../class/c_ingresar.php');
+	die(); 
+endif;
+
+include "footer.php"; ?>
