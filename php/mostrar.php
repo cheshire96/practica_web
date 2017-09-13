@@ -44,7 +44,12 @@ if(isset($_SESSION['userid'])):
                          <td><?php echo $cliente['nombre'] ?></td>
                          <td><?php echo $objCliente->calcularEdad($cliente['fecha_nac']) ?></td>
                          <td><?php echo $cliente['nacionalidad'] ?></td>
-                         <td><?php echo $cliente['activo'] ?></td>
+                         <td><?php if($cliente['activo']==0):
+					echo 'Inactivo'; 
+				   else:
+					echo 'Activo'; 
+				   endif;
+				?></td>
                          <td>
 							<form role="form" method="post" action="../class/c_mostrar.php">
 				
