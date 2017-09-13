@@ -69,6 +69,9 @@ class ModificarCliente extends MetodosValidacion{
 		}
 	}
 }
-$modi_cliente = new ModificarCliente;
-	
-	$modi_cliente->modificar();
+
+
+
+$modi_cliente = new ModificarCliente;	
+$modi_cliente->modificar();
+

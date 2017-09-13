@@ -63,5 +63,7 @@ class NuevoCliente extends MetodosValidacion{
 	}
 }
 
-$n_cliente = new NuevoCliente;
-$n_cliente->nuevo();
+
+	$n_cliente = new NuevoCliente;
+	$n_cliente->nuevo();
+
